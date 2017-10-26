@@ -1,4 +1,3 @@
-from music import music_player
 import speech_recognition as sr
 
 def _parse_nlp(result):

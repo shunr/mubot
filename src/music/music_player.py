@@ -1,11 +1,13 @@
 import pafy
 import requests
+import wave
+import pyaudio
 
-from subprocess import Popen, PIPE
+from music import analyzer
 
 API_ENDPOINT = "https://www.googleapis.com/youtube/v3/search"
 API_KEY = "AIzaSyB-LEesjGOVHPCbClNLgk1ubrXAYTYA8tU"
-
+FILETYPE = "m4a"
 PARAMS = {
     "key": API_KEY,
     "part": "snippet",
@@ -15,31 +17,50 @@ PARAMS = {
     "fields": "items(id/videoId,snippet/title)"
 }
 
-mplayer = None
 
-
-def play_from_search(query):
-    global mplayer
-
-    stop()
+def play_from_search(query, callback):
     url, title = _get_video_from_search(query)
 
     video = pafy.new(url)
     audio_streams = video.audiostreams
-    best_audio = video.getbestaudio(preftype="webm")
+    best_audio = video.getbestaudio(preftype=FILETYPE)
     print("Playing " + title, best_audio.get_filesize())
 
-    filename = best_audio.download("./tracks/track")
+    filename = best_audio.download("./tracks/track." + FILETYPE)
 
-    mplayer = Popen(["mplayer", "-slave", "-quiet", filename],
-                    stdin=PIPE, stdout=PIPE)
+    transcoded = analyzer.transcode(filename)
+    _play(transcoded, analyzer.analyze(transcoded), callback)
 
 
-def stop():
-    global mplayer
-    if mplayer != None:
-        mplayer.kill()
-    mplayer = None
+def _play(filename, peaks, callback):
+    CHUNK_SIZE = 1024
+
+    # open a wav format music
+    f = wave.open(filename, "rb")
+    # instantiate PyAudio
+    p = pyaudio.PyAudio()
+    # open stream
+    stream = p.open(format=p.get_format_from_width(f.getsampwidth()),
+                    channels=f.getnchannels(),
+                    rate=f.getframerate(),
+                    output=True)
+    ind = 0
+    data = f.readframes(CHUNK_SIZE)
+    while data:
+        if (peaks[ind] <= 0):
+            a = 0
+        elif (ind < 3 or (peaks[ind - 1] <= 0 and peaks[ind - 2] <= 0 and peaks[ind - 3] <= 0)):
+            callback(peaks[ind])
+        stream.write(data)
+        ind += 1
+        data = f.readframes(CHUNK_SIZE)
+
+    # stop stream
+    stream.stop_stream()
+    stream.close()
+
+    # close PyAudio
+    p.terminate()
 
 
 def _get_video_from_search(query):

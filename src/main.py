@@ -1,16 +1,23 @@
 import sys
+import random
 from music import speech_input
 from music import music_player
+
 from gpio import servo_control
 
 servo_control.init()
+
+
+def callback(data):
+    print(data)
+    servo_control.move_arm(random.randint(3, 14))
 
 
 def execute(command):
     if command != None:
         print(command)
         if command[0] == "play":
-            music_player.play_from_search(command[1])
+            music_player.play_from_search(command[1], callback)
         elif command[0] == "stop":
             music_player.stop()
         elif command[0] == "servo":
