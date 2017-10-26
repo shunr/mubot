@@ -26,7 +26,7 @@ def play_from_search(query):
   video = pafy.new(url)
   audio_streams = video.audiostreams
   best_audio = video.getbestaudio(preftype="webm")
-  print("Playing" + title, best_audio.get_filesize())
+  print("Playing " + title, best_audio.get_filesize())
 
   filename = best_audio.download("./tracks/track")
 
