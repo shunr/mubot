@@ -2,9 +2,8 @@ import pafy
 import sys
 from subprocess import Popen, PIPE
 import time
-from bot import speech_input
-from bot import music_player
-
+from music import speech_input
+from music import music_player
 
 def play(command):
     if command != None:
