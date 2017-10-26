@@ -1,3 +1,3 @@
-pafy==0.5.3.1
 SpeechRecognition==3.7.1
 requests==2.18.4
+pafy==0.5.3.1
