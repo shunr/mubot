@@ -2,11 +2,13 @@ import numpy as np
 from scipy.fftpack import fft
 from scipy.io import wavfile
 import subprocess
+import time
 
 CHUNK_SIZE = 1024
 
 
 def analyze(filename):
+    t1 = time.time()
     global CHUNK_SIZE
     fs, data = wavfile.read(filename)
     print(fs)
@@ -54,6 +56,8 @@ def analyze(filename):
     for i in range(len(peaks)):
         if (peaks[i] > 0):
             time = i * CHUNK_SIZE / fs
+    t2 = time.time()
+    print("Time taken to FFT: {0:.6f}".format(t2-t1))
     return peaks
 
 

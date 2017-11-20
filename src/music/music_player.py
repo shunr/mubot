@@ -2,6 +2,7 @@ import pafy
 import requests
 import wave
 import pyaudio
+import time
 
 from music import analyzer
 
@@ -25,10 +26,15 @@ def play_from_search(query, callback):
     audio_streams = video.audiostreams
     best_audio = video.getbestaudio(preftype=FILETYPE)
     print("Playing " + title, best_audio.get_filesize())
-
+    t1 = time.time()
     filename = best_audio.download("./tracks/track." + FILETYPE)
+    t2 = time.time()
+    print("Time taken to download: {0:.6f}".format(t2-t1))
 
+    t1 = time.time()
     transcoded = analyzer.transcode(filename)
+    t2 = time.time()
+    print("Time taken to transcode: {0:.6f}".format(t2-t1))
     _play(transcoded, analyzer.analyze(transcoded), callback)
 
 

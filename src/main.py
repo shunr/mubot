@@ -9,8 +9,8 @@ servo_control.init()
 
 
 def callback(data):
-    print(data)
-    servo_control.move_arm(random.randint(3, 14))
+    print("move arm", data)
+    #servo_control.move_arm(random.randint(3, 14))
 
 
 def execute(command):
