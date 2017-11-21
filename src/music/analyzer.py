@@ -5,6 +5,10 @@ import subprocess
 import time
 
 CHUNK_SIZE = 1024
+SAMPLE_RATE = 16000
+BIT_RATE = 8000
+
+MAX_DURATION = 120
 
 
 def analyze(filename, peak_array):
@@ -58,7 +62,12 @@ def analyze(filename, peak_array):
 
 def transcode(filename):
     newname = filename + ".wav"
-    command = "ffmpeg -y -ss 1 -i " + filename + \
-        " -t 60 -ar 16000 -ab 8000 " + newname
-    subprocess.call(command, shell=True)
+    command = "ffmpeg -y -ss 1 -i " + filename
+    arguments = [
+        "-t " + str(MAX_DURATION),
+        "-ar " + str(SAMPLE_RATE),
+        "-ab " + str(BIT_RATE),
+        newname
+    ]
+    subprocess.call(command + " " + " ".join(arguments), shell=True)
     return newname
