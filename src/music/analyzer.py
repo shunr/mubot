@@ -1,5 +1,5 @@
 import numpy as np
-from scipy.fftpack import fft
+from scipy.fftpack import rfft
 from scipy.io import wavfile
 import subprocess
 import time
@@ -25,7 +25,7 @@ def analyze(filename):
     j = 0
     for window in audio:
         lastSpectrum = spectrum
-        spectrum = np.abs(fft(window)[:CHUNK_SIZE // 2])
+        spectrum = np.abs(rfft(window)[:CHUNK_SIZE // 2])
         flux = 0.0
         for i in range(min(len(lastSpectrum), len(spectrum))):
             currFlux = spectrum[i] - lastSpectrum[i]
