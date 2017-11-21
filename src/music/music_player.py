@@ -20,8 +20,6 @@ PARAMS = {
 }
 
 
-
-
 def play_from_search(query, callback):
     url, title = _get_video_from_search(query)
 
@@ -32,19 +30,19 @@ def play_from_search(query, callback):
     t1 = time.time()
     filename = best_audio.download("./tracks/track." + FILETYPE)
     t2 = time.time()
-    print("Time taken to download: {0:.6f}".format(t2-t1))
+    print("Time taken to download: {0:.6f}".format(t2 - t1))
 
     t1 = time.time()
     transcoded = analyzer.transcode(filename)
     t2 = time.time()
-    print("Time taken to transcode: {0:.6f}".format(t2-t1))
+    print("Time taken to transcode: {0:.6f}".format(t2 - t1))
     peaks = Manager().list()
-    p1 = Process(target=analyzer.analyze, args=(transcoded, peaks))
-    p1.start()
-    print(peaks)
-    _play(transcoded, peaks, callback)
+    analyzer_process = Process(
+        target=analyzer.analyze, args=(transcoded, peaks))
+    analyzer_process.start()
     time.sleep(2)
-    p1.join()
+    _play(transcoded, peaks, callback)
+    analyzer_process.join()
 
 
 def _play(filename, peaks, callback):
@@ -62,12 +60,17 @@ def _play(filename, peaks, callback):
     ind = 0
     data = f.readframes(CHUNK_SIZE)
     while data:
+        buffering = False
         while len(peaks) <= ind:
-          time.sleep(3)
-          print("Buffering...")
+            buffering = True
+            stream.stop_stream()
+            print("Buffering...")
+            time.sleep(3)
+        if buffering:
+            stream.start_stream()
         if peaks[ind] == -1:
-          print("Song finished!")
-          break
+            print("Song finished!")
+            break
         if peaks[ind] <= 0:
             a = 0
         elif ind < 3 or (peaks[ind - 1] <= 0 and peaks[ind - 2] <= 0 and peaks[ind - 3] <= 0):

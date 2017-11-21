@@ -47,17 +47,18 @@ def analyze(filename, peak_array):
                 goodFluxValues.append(spectralFlux[i] - thresholds[i])
             else:
                 goodFluxValues.append(0)
-            if i > 0 and (goodFluxValues[i-1] > goodFluxValues[i]):
-                peak_array.append(goodFluxValues[i-1])
+            if i > 0 and (goodFluxValues[i - 1] > goodFluxValues[i]):
+                peak_array.append(goodFluxValues[i - 1])
             else:
                 peak_array.append(0)
     peak_array.append(-1)
     t2 = time.time()
-    print("Time taken to FFT: {0:.6f}".format(t2-t1))
+    print("Time taken to FFT: {0:.6f}".format(t2 - t1))
 
 
 def transcode(filename):
     newname = filename + ".wav"
-    command = "ffmpeg -y -ss 1 -i " + filename + " -t 60 " + newname
+    command = "ffmpeg -y -ss 1 -i " + filename + \
+        " -t 60 -ar 16000 -ab 8000 " + newname
     subprocess.call(command, shell=True)
     return newname
