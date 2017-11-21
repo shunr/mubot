@@ -43,7 +43,7 @@ def play_from_search(query, callback):
     p1.start()
     print(peaks)
     _play(transcoded, peaks, callback)
-    #time.sleep(3)
+    time.sleep(2)
     p1.join()
 
 
@@ -63,11 +63,14 @@ def _play(filename, peaks, callback):
     data = f.readframes(CHUNK_SIZE)
     while data:
         while len(peaks) <= ind:
-          time.sleep(2)
+          time.sleep(3)
           print("Buffering...")
-        if (peaks[ind] <= 0):
+        if peaks[ind] == -1:
+          print("Song finished!")
+          break
+        if peaks[ind] <= 0:
             a = 0
-        elif (ind < 3 or (peaks[ind - 1] <= 0 and peaks[ind - 2] <= 0 and peaks[ind - 3] <= 0)):
+        elif ind < 3 or (peaks[ind - 1] <= 0 and peaks[ind - 2] <= 0 and peaks[ind - 3] <= 0):
             callback(peaks[ind])
         stream.write(data)
         ind += 1

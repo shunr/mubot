@@ -51,7 +51,7 @@ def analyze(filename, peak_array):
                 peak_array.append(goodFluxValues[i-1])
             else:
                 peak_array.append(0)
- 
+    peak_array.append(-1)
     t2 = time.time()
     print("Time taken to FFT: {0:.6f}".format(t2-t1))
 
