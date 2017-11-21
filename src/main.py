@@ -5,12 +5,12 @@ from music import music_player
 
 from gpio import servo_control
 
-servo_control.init()
+controller = servo_control.ServoController()
 
 
 def callback(data):
     print("move arm", data)
-    #servo_control.move_arm(random.randint(3, 14))
+    #controller.move_arm(random.randint(3, 14))
 
 
 def execute(command):
@@ -23,9 +23,9 @@ def execute(command):
         elif command[0] == "servo":
             print(command)
             if len(command) == 2:
-                servo_control.move_arm(float(command[1]))
+                controller.move_arm(float(command[1]))
         elif command[0] == "cleanup":
-            servo_control.cleanup()
+            controller.cleanup()
             sys.exit(0)
 
 
