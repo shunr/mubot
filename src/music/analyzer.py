@@ -7,7 +7,7 @@ import time
 CHUNK_SIZE = 1024
 
 
-def analyze(filename):
+def analyze(filename, peak_array):
     t1 = time.time()
     global CHUNK_SIZE
     fs, data = wavfile.read(filename)
@@ -21,9 +21,11 @@ def analyze(filename):
     lastSpectrum = []
     spectralFlux = []
     thresholds = []
+    goodFluxValues = []
     thresholdWindow = 10
     j = 0
-    for window in audio:
+
+    for index, window in enumerate(audio):
         lastSpectrum = spectrum
         spectrum = np.abs(rfft(window)[:CHUNK_SIZE // 2])
         flux = 0.0
@@ -32,33 +34,26 @@ def analyze(filename):
             if currFlux > 0:
                 flux += currFlux
         spectralFlux.append(flux)
-    for i in range(len(spectralFlux)):
-        mean = 0.0
-        lbound = max(0, i - thresholdWindow)
-        ubound = min(len(spectralFlux) - 1, i + thresholdWindow)
-        for j in range(lbound, ubound + 1):
-            mean += spectralFlux[j]
-        mean /= (ubound - lbound)
-        thresholds.append(mean * 1.9)
-    goodFluxValues = []
-    for i in range(len(thresholds)):
-        if (thresholds[i] <= spectralFlux[i]):
-            goodFluxValues.append(spectralFlux[i] - thresholds[i])
-        else:
-            goodFluxValues.append(0)
-    peaks = []
-    for i in range(len(goodFluxValues) - 1):
-        if (goodFluxValues[i] > goodFluxValues[i + 1]):
-            peaks.append(goodFluxValues[i])
-        else:
-            peaks.append(0)
-
-    for i in range(len(peaks)):
-        if (peaks[i] > 0):
-            time = i * CHUNK_SIZE / fs
+        if index >= thresholdWindow:
+            i = index - thresholdWindow
+            mean = 0.0
+            lbound = max(0, i - thresholdWindow)
+            ubound = min(len(spectralFlux) - 1, i + thresholdWindow)
+            for j in range(lbound, ubound + 1):
+                mean += spectralFlux[j]
+            mean /= (ubound - lbound)
+            thresholds.append(mean * 1.9)
+            if (thresholds[i] <= spectralFlux[i]):
+                goodFluxValues.append(spectralFlux[i] - thresholds[i])
+            else:
+                goodFluxValues.append(0)
+            if i > 0 and (goodFluxValues[i-1] > goodFluxValues[i]):
+                peak_array.append(goodFluxValues[i-1])
+            else:
+                peak_array.append(0)
+ 
     t2 = time.time()
     print("Time taken to FFT: {0:.6f}".format(t2-t1))
-    return peaks
 
 
 def transcode(filename):

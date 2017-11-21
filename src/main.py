@@ -3,9 +3,9 @@ import random
 from music import speech_input
 from music import music_player
 
-from gpio import servo_control
+#from gpio import servo_control
 
-controller = servo_control.ServoController()
+#controller = servo_control.ServoController()
 
 
 def callback(data):

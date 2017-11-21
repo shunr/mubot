@@ -3,6 +3,7 @@ import requests
 import wave
 import pyaudio
 import time
+from multiprocessing import Process, Manager
 
 from music import analyzer
 
@@ -17,6 +18,8 @@ PARAMS = {
     "type": "video",
     "fields": "items(id/videoId,snippet/title)"
 }
+
+
 
 
 def play_from_search(query, callback):
@@ -35,7 +38,14 @@ def play_from_search(query, callback):
     transcoded = analyzer.transcode(filename)
     t2 = time.time()
     print("Time taken to transcode: {0:.6f}".format(t2-t1))
-    _play(transcoded, analyzer.analyze(transcoded), callback)
+    peaks = Manager().list()
+    p1 = Process(target=analyzer.analyze, args=(transcoded, peaks))
+    p1.start()
+    time.sleep(2)
+    print(peaks)
+    _play(transcoded, peaks, callback)
+    #time.sleep(3)
+    p1.join()
 
 
 def _play(filename, peaks, callback):
