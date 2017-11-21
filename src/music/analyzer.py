@@ -58,6 +58,6 @@ def analyze(filename, peak_array):
 
 def transcode(filename):
     newname = filename + ".wav"
-    command = "ffmpeg -y -i " + filename + " " + newname
+    command = "ffmpeg -y -ss 1 -i " + filename + " -t 60 " + newname
     subprocess.call(command, shell=True)
     return newname

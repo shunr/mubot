@@ -41,7 +41,6 @@ def play_from_search(query, callback):
     peaks = Manager().list()
     p1 = Process(target=analyzer.analyze, args=(transcoded, peaks))
     p1.start()
-    time.sleep(2)
     print(peaks)
     _play(transcoded, peaks, callback)
     #time.sleep(3)
@@ -63,6 +62,9 @@ def _play(filename, peaks, callback):
     ind = 0
     data = f.readframes(CHUNK_SIZE)
     while data:
+        while len(peaks) <= ind:
+          time.sleep(2)
+          print("Buffering...")
         if (peaks[ind] <= 0):
             a = 0
         elif (ind < 3 or (peaks[ind - 1] <= 0 and peaks[ind - 2] <= 0 and peaks[ind - 3] <= 0)):
