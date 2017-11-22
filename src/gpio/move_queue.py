@@ -15,7 +15,7 @@ class DanceQueue(object):
         move = random.randint(0, len(POSES)-1)
         while move == self.last_index:
             move = random.randint(0, len(POSES)-1)
-        last_index = move
+        self.last_index = move
         self.queue.append(POSES[move])
 
     def execute_move(self, controller):

@@ -2,10 +2,10 @@ import pigpio
 import time
 
 # pigpio uses BCM pin numbers
-SERVO_ARM_L = 2
-SERVO_ARM_R = 3
-SERVO_HEAD = 4
-SERVO_BODY = 14
+SERVO_HEAD = 2
+SERVO_BODY = 3
+SERVO_ARM_R = 4
+SERVO_ARM_L = 14
 PINS_USED = [SERVO_ARM_L, SERVO_ARM_R, SERVO_HEAD, SERVO_BODY]
 PI = pigpio.pi()
 PWM_RANGE = (750, 2500)
