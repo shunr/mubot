@@ -15,9 +15,9 @@ DUTY_CYCLE_RANGE = (3, 14)
 class ServoController(object):
     def __init__(self):
         GPIO.setmode(GPIO.BOARD)
-        GPIO.setup(PINS_USED, GPIO.OUT)
 
         for pin in PINS_USED:
+            GPIO.setup(pin, GPIO.OUT)
             SERVOS[pin] = GPIO.PWM(pin, FREQUENCY)
             SERVOS[pin].start(0)  # Default duty cycle is 0.0
         print("Initialized GPIO")
