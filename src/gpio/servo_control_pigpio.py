@@ -1,7 +1,7 @@
 import pigpio
 import time
 
-#pigpio uses BCM pin numbers
+# pigpio uses BCM pin numbers
 SERVO_ARM_L = 2
 SERVO_ARM_R = 3
 SERVO_HEAD = 4
@@ -9,18 +9,21 @@ SERVO_BODY = 14
 PINS_USED = [SERVO_ARM_L, SERVO_ARM_R, SERVO_HEAD, SERVO_BODY]
 PI = pigpio.pi()
 PWM_RANGE = (1000, 2000)
+
 '''
-The selected pulsewidth will continue to be transmitted until changed by a subsequent 
+The selected pulsewidth will continue to be transmitted until changed by a subsequent
 call to set_servo_pulsewidth.
-The pulsewidths supported by servos varies and should probably be determined by experiment. 
+The pulsewidths supported by servos varies and should probably be determined by experiment.
 A value of 1500 should always be safe and represents the mid-point of rotation.
 '''
 
+
 class ServoController(object):
     def __init__(self):
-            for pin in PINS_USED:
-                PI.set_servo_pulsewidth(pin, 0) #0 (off), 500 (most CCW), 2500 (most CW)
-                time.sleep(1)
+        for pin in PINS_USED:
+            # 0 (off), 500 (most CCW), 2500 (most CW)
+            PI.set_servo_pulsewidth(pin, 0)
+            time.sleep(1)
         print("Initialized GPIO")
 
     def move_arm_l(self, angle):
@@ -42,7 +45,7 @@ class ServoController(object):
 
 
 def _move_servo(servo, pulse_width):
-    if servo not in SERVOS:
+    if servo not in PINS_USED:
         return
     PI.set_servo_pulsewidth(servo, pulse_width)
 
