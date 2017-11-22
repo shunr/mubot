@@ -51,5 +51,7 @@ def _move_servo(servo, pulse_width):
 
 
 def _angle_to_pulse_width(angle):
+    if angle < 0:
+        return 0
     pw_range = PWM_RANGE[1] - PWM_RANGE[0]
     return (PWM_RANGE[0] + pw_range * angle / 180)
