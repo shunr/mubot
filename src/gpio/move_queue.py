@@ -2,7 +2,7 @@ from collections import deque
 import random
 import servo_control_pigpio as sc
 
-POSES = [(90, 180, 0, 90), (45, 135, 90, 90), (), ()]
+POSES = [(90, 180, 0, 90), (45, 135, 90, 90), (180, 180, -1, -1), (180, 90, -1, -1), (-1, -1, 180, -1), (45, 45, 45, 45)]
 
 class DanceQueue(object):
     def __init__(self, num_chunks):
@@ -13,15 +13,15 @@ class DanceQueue(object):
 
     def _add_move(self):
         move = random.randint(0, len(POSES)-1)
-        while(move == last_index):
+        while move == self.last_index:
             move = random.randint(0, len(POSES)-1)
         last_index = move
         self.queue.append(POSES[move])
 
-    def execute_move(self):
+    def execute_move(self, controller):
         if len(self.queue) == 0:
             return
         pose = self.queue.popleft()
-        moves = [sc.move_arm_l, sc.move_arm_r, sc.move_body, sc.move_head]
+        actions = [controller.move_arm_l, controller.move_arm_r, controller.move_body, controller.move_head]
         for i in len(pose):
-            moves[i](pose[i])
+            actions[i](pose[i])
