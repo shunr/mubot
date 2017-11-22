@@ -2,9 +2,12 @@ import RPi.GPIO as GPIO
 import time
 
 FREQUENCY = 50  # 50Hz seems to be a good value but there is room for experimenting
-SERVO_ARM = 3
+SERVO_ARM_L = 3
+SERVO_ARM_R = 5
+SERVO_HEAD = 7
+SERVO_BODY = 8
 SERVOS = {}
-PINS_USED = [SERVO_ARM]
+PINS_USED = [SERVO_ARM_L, SERVO_ARM_R, SERVO_HEAD, SERVO_BODY]
 
 DUTY_CYCLE_RANGE = (3, 14)
 
@@ -19,8 +22,17 @@ class ServoController(object):
             SERVOS[pin].start(0)  # Default duty cycle is 0.0
         print("Initialized GPIO")
 
-    def move_arm(self, angle):
-        _move_servo(SERVO_ARM, _angle_to_duty_cycle(angle))
+    def move_arm_l(self, angle):
+        _move_servo(SERVO_ARM_L, _angle_to_duty_cycle(angle))
+
+    def move_arm_r(self, angle):
+        _move_servo(SERVO_ARM_R, _angle_to_duty_cycle(angle))
+
+    def move_body(self, angle):
+        _move_servo(SERVO_BODY, _angle_to_duty_cycle(angle))
+
+    def move_head(self, angle):
+        _move_servo(SERVO_HEAD, _angle_to_duty_cycle(angle))
 
     def cleanup(self):
         for servo in SERVOS:

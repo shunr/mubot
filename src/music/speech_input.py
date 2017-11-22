@@ -11,27 +11,10 @@ def _parse_nlp(result):
       query = " ".join(entities[1:]).lower()
     return (command, query)
 
-"""
-def _parse_nlp(result):
-    query = None
-    print(result)
-    entities = result["entities"]
-    if "command" not in entities:
-        return None
-    command = result["entities"]["command"][0]["value"]
-    if command == "play" and "search_query" not in entities:
-        return None
-    if command == "play":
-      query = result["entities"]["search_query"][0]["value"]
-    return (command, query)
-"""
-
 def _recognize(recognizer, audio):
-    print("ok")
+    print("Listening for speech...")
     try:
         result = recognizer.recognize_bing(audio, "b9bfada8b4ab42a480fe18b7c3f53911")
-        #result = recognizer.recognize_sphinx(audio)
-        #result = recognizer.recognize_houndify(audio, "HOd15CyEeEKoEE8qErKGrw==", "95gCvx1wB8xrUHWyxG7xd0ajsQB-T7jH5Kowo7q6O3XGUelbZGX2XPLoVyHLVR7ILVoL82r_q-YOlwzgbY2Vpg==")
         command = _parse_nlp(result)
         return command
     except sr.UnknownValueError:

@@ -3,9 +3,9 @@ import random
 from music import speech_input
 from music import music_player
 
-#from gpio import servo_control
+from gpio import servo_control
 
-#controller = servo_control.ServoController()
+controller = servo_control.ServoController()
 
 
 def callback(data):
@@ -23,7 +23,10 @@ def execute(command):
         elif command[0] == "servo":
             print(command)
             if len(command) == 2:
-                controller.move_arm(float(command[1]))
+                controller.move_arm_l(float(command[1]))
+                controller.move_arm_r(float(command[1]))
+                controller.move_head(float(command[1]))
+                controller.move_body(float(command[1]))
         elif command[0] == "cleanup":
             controller.cleanup()
             sys.exit(0)
