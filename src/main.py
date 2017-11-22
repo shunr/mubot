@@ -2,14 +2,14 @@ import sys
 import random
 from music import speech_input
 from music import music_player
-from gpio import move_queue
+from gpio import dance
 from gpio import servo_control_pigpio
 
 controller = servo_control_pigpio.ServoController()
 dance_queue = {}
 
 def callback(data):
-    pose = dance_queue.execute_move(controller)
+    pose = dance_queue.execute_move()
 
 
 def execute(command):
@@ -17,7 +17,7 @@ def execute(command):
     if command != None:
         print(command)
         if command[0] == "play":
-            dance_queue = move_queue.DanceQueue(10000)
+            dance_queue = dance.DanceQueue(controller, 10000)
             music_player.play_from_search(command[1], callback)
         elif command[0] == "stop":
             music_player.stop()
