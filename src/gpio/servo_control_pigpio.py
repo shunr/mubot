@@ -8,7 +8,7 @@ SERVO_HEAD = 4
 SERVO_BODY = 14
 PINS_USED = [SERVO_ARM_L, SERVO_ARM_R, SERVO_HEAD, SERVO_BODY]
 PI = pigpio.pi()
-PWM_RANGE = (1000, 2000)
+PWM_RANGE = (750, 2250)
 
 '''
 The selected pulsewidth will continue to be transmitted until changed by a subsequent
