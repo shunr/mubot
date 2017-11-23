@@ -1,6 +1,8 @@
 import random
 from collections import deque
 
+# DanceQueue class generates, queues and executes dance moves
+
 POSES = [(180, 0, -1, -1), (0, 180, -1, -1), (45, 45, -1, 180),
          (135, 135, -1, 0), (90, 180, 45, 135), (0, 90, 135, 45),
          (45, -1, 180, 75), (-1, 45, 0, 105), (-1, -1, -1, 90),

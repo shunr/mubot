@@ -1,7 +1,7 @@
 import pigpio
 import time
 
-#LEDController is used to change the intensity of the red, green and blue LEDs on the robot.
+# LEDController is used to change the intensity of the red, green and blue LEDs on the robot.
 # pigpio uses BCM pin numbers
 
 RED = 17
