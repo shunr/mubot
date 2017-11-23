@@ -1,6 +1,6 @@
-from collections import deque
 import random
-import servo_control_pigpio as sc
+from collections import deque
+from gpio import servo_control_pigpio as sc
 
 POSES = [(90, 180, 0, 90), (45, 135, 90, 90), (180, 180, -1, -1),
          (180, 90, -1, -1), (-1, -1, 180, -1), (45, 45, 45, 45)]
@@ -33,4 +33,4 @@ class DanceQueue(object):
         ]
         for i, position in enumerate(pose):
             if position != -1:
-              actions[i](position)
+                actions[i](position)
