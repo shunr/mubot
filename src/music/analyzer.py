@@ -6,7 +6,7 @@ import time
 
 CHUNK_SIZE = 1024
 SAMPLE_RATE = 16000
-BIT_RATE = 8000
+BIT_RATE = 10000
 
 MAX_DURATION = 120
 
@@ -46,13 +46,16 @@ def analyze(filename, peak_array):
             for j in range(lbound, ubound + 1):
                 mean += spectralFlux[j]
             mean /= (ubound - lbound)
-            thresholds.append(mean * 1.9)
+            thresholds.append(mean * 1.35)
             if (thresholds[i] <= spectralFlux[i]):
                 goodFluxValues.append(spectralFlux[i] - thresholds[i])
             else:
                 goodFluxValues.append(0)
             if i > 0 and (goodFluxValues[i - 1] > goodFluxValues[i]):
-                peak_array.append(goodFluxValues[i - 1])
+                if i == 0 or peak_array[i-1] == 0:
+                  peak_array.append(goodFluxValues[i - 1])
+                else:
+                  peak_array.append(0)
             else:
                 peak_array.append(0)
     peak_array.append(-1)

@@ -57,7 +57,7 @@ def _play(filename, peaks, callback):
                     channels=f.getnchannels(),
                     rate=f.getframerate(),
                     output=True)
-    ind = 1
+    ind = 0
     data = f.readframes(CHUNK_SIZE)
     while data:
         buffering = False
@@ -71,7 +71,7 @@ def _play(filename, peaks, callback):
         if peaks[ind] == -1:
             print("Song finished!")
             break
-        if ind < 3 or (peaks[ind - 1] <= 0 and peaks[ind - 2] <= 0 and peaks[ind - 3] <= 0):
+        if peaks[ind] > 0:
             callback(peaks[ind])
         stream.write(data)
         ind += 1
