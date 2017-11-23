@@ -13,17 +13,16 @@ class LEDController(object):
         for pin in PINS_USED:
             PI.set_mode(pin, pigpio.OUTPUT)
             PI.set_PWM_frequency(pin, 100)
-            time.sleep(1)
         print("Initialized GPIO")
 
-    def change_brightness_r(self, intensity):
-        PI.set_PWM_dutycycle(RED,intensity)
+    def set_r(self, intensity):
+        PI.set_PWM_dutycycle(RED, intensity * 0.9)
     
-    def change_brightness_g(self, intensity):
-        PI.set_PWM_dutycycle(GREEN,intensity)
+    def set_g(self, intensity):
+        PI.set_PWM_dutycycle(GREEN,intensity * 0.75)
 
-    def change_brightness_b(self, intensity):
-        PI.set_PWM_dutycycle(BLUE,intensity)
+    def set_b(self, intensity):
+        PI.set_PWM_dutycycle(BLUE, intensity)
 
     def cleanup(self):
         for pin in PINS_USED:

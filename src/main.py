@@ -13,7 +13,7 @@ dance_queue = {}
 
 def callback(data):
     print(data)
-    pose = dance_queue.execute_move()
+    dance_queue.execute_move(data)
 
 
 def execute(command):
@@ -21,17 +21,16 @@ def execute(command):
     if command != None:
         print(command)
         if command[0] == "play":
-            dance_queue = dance.DanceQueue(controller, 10000)
+            dance_queue = dance.DanceQueue(10000, controller, led)
             music_player.play_from_search(command[1], callback)
         elif command[0] == "stop":
             music_player.stop()
         elif command[0] == "led":
             print(command)
             if len(command) == 2:
-                led.change_brightness_r(float(command[1]))
-                led.change_brightness_g(float(command[1]))
-                led.change_brightness_b(float(command[1]))
-
+                led.set_r(float(command[1]))
+                led.set_g(float(command[1]))
+                led.set_b(float(command[1]))
         elif command[0] == "servo":
             print(command)
             if len(command) == 2:
