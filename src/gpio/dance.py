@@ -1,8 +1,8 @@
 import random
 from collections import deque
 
-POSES = [(90, 180, 0, 90), (45, 135, 90, 90), (180, 180, -1, -1),
-         (180, 90, -1, -1), (-1, -1, 180, -1), (45, 45, 45, 45)]
+POSES = [(90, 180, 0, 90), (45, 135, 90, 90), (180, 180, -1, 0),
+         (0, 90, -1, 180), (-1, -1, 180, -1), (135, 45, 45, 45), (180, 0, 135, -1), (0, 180, 45, 0)]
 
 
 class DanceQueue(object):
@@ -36,7 +36,7 @@ class DanceQueue(object):
             if position != -1:
                 actions[i](position)
 
-        brightness = max(intensity / 8192, 245)
+        brightness = min(intensity / 64000, 255)
 
         if self.color == 0:
             self.led_controller.set_r(brightness)
