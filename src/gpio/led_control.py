@@ -19,7 +19,7 @@ class LEDController(object):
         PI.set_PWM_dutycycle(RED, intensity * 0.9)
     
     def set_g(self, intensity):
-        PI.set_PWM_dutycycle(GREEN,intensity * 0.75)
+        PI.set_PWM_dutycycle(GREEN,intensity * 0.8)
 
     def set_b(self, intensity):
         PI.set_PWM_dutycycle(BLUE, intensity)

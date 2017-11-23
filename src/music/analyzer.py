@@ -9,7 +9,7 @@ SAMPLE_RATE = 16000
 BIT_RATE = 10000
 
 MAX_DURATION = 120
-
+THRESHOLD = 1.25
 
 def analyze(filename, peak_array):
     t1 = time.time()
@@ -46,7 +46,7 @@ def analyze(filename, peak_array):
             for j in range(lbound, ubound + 1):
                 mean += spectralFlux[j]
             mean /= (ubound - lbound)
-            thresholds.append(mean * 1.35)
+            thresholds.append(mean * THRESHOLD)
             if (thresholds[i] <= spectralFlux[i]):
                 goodFluxValues.append(spectralFlux[i] - thresholds[i])
             else:

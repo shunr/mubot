@@ -3,10 +3,10 @@ import random
 from music import speech_input
 from music import music_player
 from gpio import dance
-from gpio import servo_control_pigpio
+from gpio import servo_control
 from gpio import led_control
 
-controller = servo_control_pigpio.ServoController()
+controller = servo_control.ServoController()
 led = led_control.LEDController()
 dance_queue = {}
 
