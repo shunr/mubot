@@ -4,6 +4,8 @@ from scipy.io import wavfile
 import subprocess
 import time
 
+#Performs a fast fourier transform and compares the mean "energy" of each section using spectral flux onset detection in order to detect which 1024 bit chunks are beats.
+
 CHUNK_SIZE = 1024
 SAMPLE_RATE = 16000
 BIT_RATE = 10000
