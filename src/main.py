@@ -4,9 +4,12 @@ from music import speech_input
 from music import music_player
 from gpio import dance
 from gpio import servo_control_pigpio
+from gpio import led_control
 
 controller = servo_control_pigpio.ServoController()
+led = led_control.LEDController()
 dance_queue = {}
+
 
 def callback(data):
     print(data)
@@ -22,6 +25,13 @@ def execute(command):
             music_player.play_from_search(command[1], callback)
         elif command[0] == "stop":
             music_player.stop()
+        elif command[0] == "led":
+            print(command)
+            if len(command) == 2:
+                led.change_brightness_r(float(command[1]))
+                led.change_brightness_g(float(command[1]))
+                led.change_brightness_b(float(command[1]))
+
         elif command[0] == "servo":
             print(command)
             if len(command) == 2:
