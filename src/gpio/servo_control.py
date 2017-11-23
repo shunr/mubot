@@ -1,6 +1,7 @@
 import pigpio
 import time
 
+#ServoController is used to change the position of each member (arms, torso, head) of the robot
 # pigpio uses BCM pin numbers
 SERVO_HEAD = 2
 SERVO_BODY = 3
