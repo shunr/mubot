@@ -1,6 +1,7 @@
-SpeechRecognition==3.7.1
-numpy==1.13.3
-PyAudio==0.2.11
+requests==2.18.4
 pafy==0.5.3.1
 scipy==1.0.0
-requests==2.18.4
+PyAudio==0.2.11
+numpy==1.13.3
+SpeechRecognition==3.7.1
+pigpio==1.38
