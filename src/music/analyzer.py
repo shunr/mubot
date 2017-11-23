@@ -9,7 +9,7 @@ SAMPLE_RATE = 16000
 BIT_RATE = 10000
 
 MAX_DURATION = 120
-THRESHOLD = 1.25
+THRESHOLD = 1.28
 
 def analyze(filename, peak_array):
     t1 = time.time()
